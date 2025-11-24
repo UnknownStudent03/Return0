@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Reflecta - A Gentle Space to Breathe and Reflect</title>
+
+<style>
+
+/* Global Styles */
+
+body {
+
+font-family: 'Inter', sans-serif;
+
+margin: 0;
+
+padding: 0;
+
+color: #333;
+
+background: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%);
+
+line-height: 1.6;
+
+}
+
+h1, h2, h3 {
+
+font-weight: 300;
+
+margin-bottom: 1rem;
+
+}
+
+p {
+
+margin-bottom: 1rem;
+
+}
+
+a {
+
+text-decoration: none;
+
+color: #00796b;
+
+}
+
+button {
+
+background: linear-gradient(135deg, #80deea, #b39ddb);
+
+border: none;
+
+padding: 0.75rem 1.5rem;
+
+border-radius: 25px;
+
+color: white;
+
+font-size: 1rem;
+
+cursor: pointer;
+
+transition: transform 0.2s;
+
+}
+
+button:hover {
+
+transform: scale(1.05);
+
+}
+
+.section {
+
+padding: 4rem 2rem;
+
+max-width: 1200px;
+
+margin: 0 auto;
+
+opacity: 0;
+
+transform: translateY(20px);
+
+transition: opacity 0.6s, transform 0.6s;
+
+}
+
+.section.visible {
+
+opacity: 1;
+
+transform: translateY(0);
+
+}
+
+.container {
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+text-align: center;
+
+}
+
+.card {
+
+background: rgba(255, 255, 255, 0.9);
+
+border-radius: 15px;
+
+padding: 1.5rem;
+
+margin: 1rem;
+
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+max-width: 300px;
+
+}
+
+.grid {
+
+display: flex;
+
+flex-wrap: wrap;
+
+justify-content: center;
+
+}
+
+.emoji {
+
+font-size: 2rem;
+
+cursor: pointer;
+
+margin: 0.5rem;
+
+transition: transform 0.2s;
+
+}
+
+.emoji:hover {
+
+transform: scale(1.2);
+
+}
+
+.chat-bubble {
+
+background: #f1f8e9;
+
+border-radius: 15px;
+
+padding: 1rem;
+
+margin: 0.5rem;
+
+max-width: 80%;
+
+}
+
+.chat-bubble.user {
+
+background: #e8f5e8;
+
+align-self: flex-end;
+
+}
+
+.breathing-circle {
+
+width: 200px;
+
+height: 200px;
+
+border-radius: 50%;
+
+background: linear-gradient(135deg, #80deea, #b39ddb);
+
+margin: 2rem auto;
+
+transition: transform 2s ease-in-out;
+
+}
+
+.breathing-circle.breathe-in {
+
+transform: scale(1.5);
+
+}
+
+.breathing-circle.breathe-out {
+
+transform: scale(1);
+
+}
+
+
+/* Navigation */
+
+nav {
+
+position: fixed;
+
+top: 0;
+
+width: 100%;
+
+background: rgba(255, 255, 255, 0.95);
+
+padding: 1rem;
+
+z-index: 100;
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+nav a {
+
+margin: 0 1rem;
+
+font-weight: 500;
+
+}
+
+.logo {
+
+font-size: 1.5rem;
+
+font-weight: bold;
+
+}
+
+.hamburger {
+
+display: none;
+
+flex-direction: column;
+
+cursor: pointer;
+
+}
+
+.hamburger div {
+
+width: 25px;
+
+height: 3px;
+
+background: #333;
+
+margin: 3px 0;
+
+}
+
+
+/* Hero */
+
+.hero {
+
+background: linear-gradient(135deg, #b3e5fc, #e1bee7);
+
+height: 100vh;
+
+display: flex;
+
+flex-direction: column;
+
+justify-content: center;
+
+align-items: center;
+
+text-align: center;
+
+}
+
+.hero h1 {
+
+font-size: 3rem;
+
+margin-bottom: 1rem;
+
+}
+
+.hero p {
+
+font-size: 1.25rem;
+
+margin-bottom: 2rem;
+
+}
+
+
+/* Footer */
+
+footer {
+
+background: #333;
+
+color: white;
+
+padding: 2rem;
+
+text-align: center;
+
+}
+
+footer a {
+
+color: #80deea;
+
+margin: 0 1rem;
+
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+nav {
+
+flex-direction: column;
+
+}
+
+nav a {
+
+display: none;
+
+}
+
+.hamburger {
+
+display: flex;
+
+}
+
+.section {
+
+padding: 2rem 1rem;
+
+}
+
+.hero h1 {
+
+font-size: 2rem;
+
+}
+
+}
+
+/* Modal styles */
+
+.modal-overlay {
+
+position: fixed;
+
+top: 0;
+
+left: 0;
+
+width: 100%;
+
+height: 100%;
+
+background: rgba(0,0,0,0.5);
+
+display: none;
+
+align-items: center;
+
+justify-content: center;
+
+z-index: 200;
+
+}
+
+.modal-overlay.active {
+
+display: flex;
+
+}
+
+.modal-content {
+
+background: white;
+
+max-width: 800px;
+
+width: 90%;
+
+border-radius: 12px;
+
+padding: 1.5rem;
+
+box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+
+max-height: 80vh;
+
+overflow-y: auto;
+
+}
+
+.modal-close {
+
+background: transparent;
+
+border: none;
+
+font-size: 1.25rem;
+
+float: right;
+
+cursor: pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+
+<nav id="navbar">
+
+<div class="logo">Reflecta</div>
+
+<div class="hamburger" onclick="toggleMenu()">
+
+<div></div>
+
+<div></div>
+
+<div></div>
+
+</div>
+
+<div id="nav-links">
+
+<a href="#home">Home</a>
+
+<a href="#why">Why Reflecta</a>
+
+<a href="#breathing">Breathing Exercise</a>
+
+<a href="#mood">Mood Checker</a>
+
+<a href="#chat">Chat with Reflecta</a>
+
+<a href="#resources">Resources</a>
+
+<a href="#contact">Contact</a>
+
+<button>Try Reflecta Now</button>
+
+</div>
+
+</nav>
+
+
+<!-- Hero Section -->
+
+<section id="home" class="hero section visible">
+
+<div class="container">
+
+<h1>Welcome to Reflecta</h1>
+
+<p>A gentle space to breathe, reflect, and find support.</p>
+
+<button onclick="scrollToSection('breathing')">Start Breathing</button>
+
+<button onclick="scrollToSection('why')">How Reflecta Works</button>
+
+</div>
+
+</section>
+
+<!-- What is SDG 3? & Resources -->
+
+<section id="sdg3" class="section">
+
+<div class="container">
+
+<h2>What is SDG 3? & Resources</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>What is SDG 3?</h3>
+
+<p>SDG 3 focuses on ensuring healthy lives and promoting well-being for everyone, at every age. It covers things like reducing maternal and child mortality, fighting infectious diseases, supporting mental health, and improving access to healthcare and medicines.</p>
+
+<p><a href="#" onclick="openModal('sdg3-modal'); return false;">More info</a></p>
+
+</div>
+
+<div class="card">
+
+<h3>Resources</h3>
+
+<p>Find trusted links, guides, and support resources related to health and wellbeing.</p>
+
+<button onclick="openModal('resources-modal')">View Resources</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SDG3 Modal -->
+
+<div id="sdg3-modal" class="modal-overlay" onclick="if(event.target===this) closeModal('sdg3-modal')">
+
+<div class="modal-content">
+
+<button class="modal-close" onclick="closeModal('sdg3-modal')">✕</button>
+
+<h3>SDG 3 — Good Health and Well-being</h3>
+
+<p>SDG 3 seeks to ensure healthy lives and promote well-being for all ages. Key aims include:</p>
+
+<ul>
+
+<li>Reducing maternal mortality and ending preventable deaths of newborns and children.</li>
+
+<li>Combating epidemics such as AIDS, tuberculosis, malaria, and neglected tropical diseases.</li>
+
+<li>Reducing deaths from non-communicable diseases and promoting mental health.</li>
+
+<li>Ensuring access to affordable essential medicines and vaccines.</li>
+
+<li>Strengthening capacity for early warning, risk reduction and management of health risks.</li>
+
+</ul>
+
+<p>These goals aim to create healthier societies where people can thrive and contribute to sustainable development.</p>
+
+</div>
+
+</div>
+
+
+<!-- Resources Modal -->
+
+<div id="resources-modal" class="modal-overlay" onclick="if(event.target===this) closeModal('resources-modal')">
+
+<div class="modal-content">
+
+<button class="modal-close" onclick="closeModal('resources-modal')">✕</button>
+
+<h3>Guides & Resources</h3>
+
+<p>Below are a few curated resources. These are examples — replace or extend them with region-specific links if desired.</p>
+
+<ul>
+
+<li><a href="https://www.who.int/" target="_blank" rel="noopener">World Health Organization (WHO)</a> — Global health guidance and data.</li>
+
+<li><a href="https://sdgs.un.org/goals/goal3" target="_blank" rel="noopener">UN SDG 3 Overview</a> — Official Sustainable Development Goal 3 information.</li>
+
+<li><a href="https://www.who.int/mental_health/en/" target="_blank" rel="noopener">Mental Health Resources</a> — Guidance and support for mental wellbeing.</li>
+
+<li>Local helplines: contact your local health services or emergency numbers if you need urgent help.</li>
+
+</ul>
+
+<p>If you'd like, I can add downloadable PDFs, localized services, or phone numbers here.</p>
+
+</div>
+
+</div>
+
+
+<!-- Why Reflecta -->
+
+<section id="why" class="section">
+
+<div class="container">
+
+<h2>Why Reflecta?</h2>
+
+<p>Many people feel overwhelmed, lonely, or stuck. Reflecta offers easy, in-the-moment exercises, mood check-ins, and non-judgmental AI support. It’s designed to be accessible, soothing, and always available — a companion, not a replacement for professional help.</p>
+
+<!-- Placeholder for illustration -->
+
+<div style="width: 200px; height: 200px; background: #e0f7fa; border-radius: 50%; margin: 2rem auto;"></div>
+
+</div>
+
+</section>
+
+
+<!-- Breathing Exercise -->
+
+<section id="breathing" class="section">
+
+<div class="container">
+
+<h2>Take a Breath</h2>
+
+<p>A minute of mindful breathing loop to help you slow down.</p>
+
+<div id="breathing-circle" class="breathing-circle"></div>
+
+<p id="breath-text">Inhale</p>
+
+<button onclick="startBreathing()">Start / Pause</button>
+
+</div>
+
+</section>
+
+
+<!-- Mood Checker -->
+
+<section id="mood" class="section">
+
+<div class="container">
+
+<h2>How are you feeling right now?</h2>
+
+<div class="grid">
+
+<span class="emoji" onclick="showMoodMessage('😊')">😊</span>
+
+<span class="emoji" onclick="showMoodMessage('😢')">😢</span>
+
+<span class="emoji" onclick="showMoodMessage('😡')">😡</span>
+
+<span class="emoji" onclick="showMoodMessage('😰')">😰</span>
+
+<span class="emoji" onclick="showMoodMessage('😴')">😴</span>
+
+</div>
+
+<div id="mood-message" class="card" style="display: none;"></div>
+
+<button onclick="hideMoodMessage()">Check Again Later</button>
+
+</div>
+
+</section>
+
+
+<!-- AI Chat -->
+
+<section id="chat" class="section">
+
+<div class="container">
+
+<h2>Talk with Reflecta</h2>
+
+<p>AI-emotional support — whenever you need to vent or just get things off your chest.</p>
+
+<div id="chat-container" style="width: 100%; max-width: 600px; height: 300px; background: rgba(255,255,255,0.9); border-radius: 15px; padding: 1rem; overflow-y: auto;">
+
+<div class="chat-bubble">Hi! How can I help you today?</div>
+
+</div>
+
+<div style="margin-top: 1rem;">
+
+<button onclick="sendMessage('I feel stressed')">I feel stressed</button>
+
+<button onclick="sendMessage('I’m sad today')">I’m sad today</button>
+
+<button onclick="sendMessage('Can you help me calm down?')">Can you help me calm down?</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- Daily Reflection -->
+
+<section id="reflection" class="section">
+
+<div class="container">
+
+<h2>A Reflection for Today</h2>
+
+<div class="card">
+
+<p id="reflection-text">You are capable of amazing things. Take it one step at a time.</p>
+
+</div>
+
+<button onclick="newReflection()">New Thought</button>
+
+</div>
+
+</section>
+
+
+<!-- Testimonials -->
+
+<section id="testimonials" class="section">
+
+<div class="container">
+
+<h2>Stories from People Like You</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<p>“Reflecta helped me calm down when I thought I couldn’t.”</p>
+
+<p>- Alex</p>
+
+</div>
+
+<div class="card">
+
+<p>“The breathing exercise is my go-to during breaks.”</p>
+
+<p>- Jordan</p>
+
+</div>
+
+<div class="card">
+
+<p>“Chatting feels safe, and it doesn’t judge me.”</p>
+
+<p>- Taylor</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- Resources -->
+
+<section id="resources" class="section">
+
+<div class="container">
+
+<h2>Guides & Resources</h2>
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Coping with Anxiety: 5 Simple Techniques</h3>
+
+<button>Read More</button>
+
+</div>
+
+<div class="card">
+
+<h3>Why Journaling Helps</h3>
+
+<button>Read More</button>
+
+</div>
+
+<div class="card">
+
+<h3>Self-Care Tips on Tough Days</h3>
+
+<button>Read More</button>
+
+</div>
+
+<div class="card">
+
+<h3>Sleep Better: A Gentle Guide</h3>
+
+<button>Read More</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CTA Strip -->
+
+<section class="section" style="background: linear-gradient(135deg, #b3e5fc, #e1bee7);">
+
+<div class="container">
+
+<p>You don’t have to face things alone.</p>
+
+<button>Try Reflecta Now</button>
+
+</div>
+
+</section>
+
+
+<!-- Footer -->
+
+<footer>
+
+<div class="logo">Reflecta — A moment for your mind.</div>
+
+<div>
+
+<a href="#about">About</a>
+
+<a href="#contact">Contact</a>
+
+<a href="#privacy">Privacy Policy</a>
+
+<a href="#terms">Terms of Service</a>
+
+<a href="#resources">Resources</a>
+
+</div>
+
+<p>Reflecta provides supportive exercises and AI-based reflections but is not a substitute for professional mental health care.</p>
+
+</footer>
+
+
+<script>
+
+// Smooth scrolling for anchors
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+anchor.addEventListener('click', function (e) {
+
+e.preventDefault();
+
+document.querySelector(this.getAttribute('href')).scrollIntoView({
+
+behavior: 'smooth'
+
+});
+
+});
+
+});
+
+
+// Intersection Observer for fade-in animations
+
+const observer = new IntersectionObserver(entries => {
+
+entries.forEach(entry => {
+
+if (entry.isIntersecting) {
+
+entry.target.classList.add('visible');
+
+}
+
+});
+
+});
+
+document.querySelectorAll('.section').forEach(section => observer.observe(section));
+
+
+// Breathing animation
+
+let breathingInterval;
+
+function startBreathing() {
+
+const circle = document.getElementById('breathing-circle');
+
+const text = document.getElementById('breath-text');
+
+let inhaling = true;
+
+breathingInterval = setInterval(() => {
+
+if (inhaling) {
+
+circle.classList.add('breathe-in');
+
+text.textContent = 'Inhale';
+
+} else {
+
+circle.classList.remove('breathe-in');
+
+text.textContent = 'Exhale';
+
+}
+
+inhaling = !inhaling;
+
+}, 4000); // 4 seconds per cycle
+
+}
+
+
+// Mood checker
+
+function showMoodMessage(emoji) {
+
+const messages = {
+
+'😊': 'Great to see you smiling! Keep that positivity going.',
+
+'😢': 'It\'s okay to feel sad. Take a moment to breathe.',
+
+'😡': 'Anger is valid. Let\'s find a way to channel it calmly.',
+
+'😰': 'Feeling anxious? A quick breathing exercise might help.',
+
+'😴': 'Rest is important. Maybe it\'s time for a break.'
+
+};
+
+document.getElementById('mood-message').innerHTML = `<p>${messages[emoji]}</p>`;
+
+document.getElementById('mood-message').style.display = 'block';
+
+}
+
+function hideMoodMessage() {
+
+document.getElementById('mood-message').style.display = 'none';
+
+}
+
+
+// AI Chat simulation
+
+function sendMessage(message) {
+
+const chat = document.getElementById('chat-container');
+
+chat.innerHTML += `<div class="chat-bubble user">${message}</div>`;
+
+setTimeout(() => {
+
+chat.innerHTML += `<div class="chat-bubble">That's understandable. Let's talk about it.</div>`;
+
+chat.scrollTop = chat.scrollHeight;
+
+}, 1000);
+
+}
+
+
+// New reflection
+
+const reflections = [
+
+'You are capable of amazing things. Take it one step at a time.',
+
+'Every day is a new opportunity to grow.',
+
+'Be kind to yourself; you\'ve come this far.',
+
+'Small steps lead to big changes.'
+
+];
+
+function newReflection() {
+
+const text = document.getElementById('reflection-text');
+
+text.textContent = reflections[Math.floor(Math.random() * reflections.length)];
+
+}
+
+
+// Modal helpers
+
+function openModal(id) {
+
+const el = document.getElementById(id);
+
+if (!el) return;
+
+el.classList.add('active');
+
+document.body.style.overflow = 'hidden';
+
+}
+
+function closeModal(id) {
+
+const el = document.getElementById(id);
+
+if (!el) return;
+
+el.classList.remove('active');
+
+document.body.style.overflow = '';
+
+}
+
+// Close modals with Escape
+
+document.addEventListener('keydown', (e) => {
+
+if (e.key === 'Escape') {
+
+document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+
+document.body.style.overflow = '';
+
+}
+
+});
+
+
+// Mobile menu toggle
+
+function toggleMenu() {
+
+const links = document.getElementById('nav-links');
+
+links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+
+}
+
+
+// Scroll to section helper
+
+function scrollToSection(id) {
+
+document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+
+}
+
+</script>
+
+</body>
+
+</html>
